@@ -179,9 +179,15 @@
     transform-style: preserve-3d;
   }
 
+  /* FRONT */
   .flip-front {
-    transform: translateZ(1px); /* ผลักหน้าออกมาข้างหน้า 1 มิลลิเมตร */
-    z-index: 2;
+    background: var(--bg-card);
+    /* --- แก้ไขตรงนี้ --- */
+    display:flex;
+    flex-direction:column;
+    justify-content:flex-end; /* ผลักเนื้อหาทั้งหมดลงด้านล่าง */
+    /* ------------------ */
+    padding:22px 18px;
   }
 
   .flip-back {
