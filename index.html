@@ -450,7 +450,7 @@
         <span class="role-tag">ประธานสภานักเรียน</span>
         <p>มุ่งมั่นพัฒนาโรงเรียนลาซาลให้เป็นพื้นที่แห่งการเรียนรู้และความสุขสำหรับนักเรียนทุกคน ภายใต้แนวคิด "รวมพลัง สร้างสรรค์ พัฒนา"</p>
         <div class="president-contacts">
-          <a href="tel:081-234-5678" class="pres-contact">Nickname : Boeing (โบอิ้ง)</a>
+          <a class="pres-contact">Nickname : Boeing (โบอิ้ง)</a>
           <a href="https://www.instagram.com/24hwith_.bo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="pres-contact" target="_blank">📷 IG : @24hwith_.bo</a>
         </div>
       </div>
@@ -681,6 +681,9 @@ members.forEach((m, i) => {
       <div class="flip-back">
         <h4>${m.name}</h4>
         <div class="back-role">${m.role}</div>
+        <div class="contact-item">
+          <span class="contact-icon">👤</span> ชื่อเล่น: ${m.nickname}
+        </div>
         <div class="contact-list">
           <a href="https://instagram.com/${m.ig}" target="_blank" class="contact-item">
             <span class="contact-icon">📷</span> IG: @${m.ig}
