@@ -168,19 +168,26 @@
   .flip-wrapper:hover .flip-inner,
   .flip-wrapper.flipped .flip-inner { transform:rotateY(180deg); }
 
-  .flip-front, .flip-back {
+.flip-front, .flip-back {
     position:absolute; inset:0;
-    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
     border-radius:18px;
     border:1px solid var(--border);
     overflow:hidden;
+    /* เพิ่มบรรทัดนี้เพื่อให้มือถือประมวลผล 3D ได้แม่นยำขึ้น */
+    transform-style: preserve-3d;
   }
 
-  /* FRONT */
   .flip-front {
-    background: var(--bg-card);
-    display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
-    padding:22px 18px;
+    transform: translateZ(1px); /* ผลักหน้าออกมาข้างหน้า 1 มิลลิเมตร */
+    z-index: 2;
+  }
+
+  .flip-back {
+    /* ของเดิมมี rotateY(180deg) อยู่แล้ว ให้เพิ่ม translateZ เข้าไปต่อท้าย */
+    transform: rotateY(180deg) translateZ(1px); 
+    z-index: 1;
   }
   .member-photo {
     position:absolute; inset:0;
