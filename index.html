@@ -130,28 +130,41 @@ nav {
 }
 
 /* ── HERO VIDEO OPTIMIZATION ── */
+/* ── HERO VIDEO FIX ── */
 .hero-video-wrap {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
+  height: 100%; /* บังคับให้สูงเต็ม Hero Section */
   overflow: hidden;
-  z-index: -1; /* ให้วิดีโออยู่หลังเนื้อหา */
-  background: var(--bg-dark); /* ใช้ตัวแปรสีพื้นหลังเดิมของคุณ */
+  z-index: -1;
+  background: var(--bg-dark);
 }
 
 .hero-video {
+  /* หัวใจสำคัญเพื่อให้วิดีโอเต็มจอและไม่เบี้ยว */
   width: 100%;
   height: 100%;
-  object-fit: cover; /* บังคับให้วิดีโอเต็มหน้าจอโดยไม่เบี้ยว */
-  opacity: 0.22;     /* ค่าความโปร่งใสเดิมของคุณ */
+  object-fit: cover; 
+  
+  /* จัดตำแหน่งให้อยู่กึ่งกลางเสมอ */
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* เพิ่มการรองรับสำหรับการเล่นบนมือถือ */
+  
+  opacity: 0.22; /* ค่าเดิมของคุณ */
   display: block;
+}
+
+/* เพิ่มเติม: สำหรับมือถือในแนวตั้ง */
+@media (max-width: 768px) {
+  .hero-video {
+    width: 100vw;
+    height: 100vh;
+    object-fit: cover;
+  }
 }
 .hero-video-wrap::after {
   content:'';
@@ -719,7 +732,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/subjectfrontunity.jpg" alt="วิชาการ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านวิชาการ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
@@ -740,7 +753,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/recreationfrontunity.jpg" alt="นันทนาการ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านนันทนาการ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
@@ -761,7 +774,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/cleanfrontunity.jpg" alt="ความสะอาด" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านความสะอาด</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
@@ -782,7 +795,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/securityfrontunity.jpg" alt="ความปลอดภัย" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านความปลอดภัย</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
@@ -803,7 +816,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/regulatioonfrontunity.jpg" alt="ระเบียบ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านระเบียบ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
