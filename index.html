@@ -4,474 +4,906 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>LASALLE UNITY | สภานักเรียน</title>
+
+<!-- ══ FAVICON: ใส่ URL โลโก้พรรคของคุณที่นี่ ══ -->
+<link rel="icon" type="image/jpeg" href="images/logounity.jpg">
+
 <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg-dark: #4a0404;
-    --bg-card: #280b0a;
-    --bg-card2: #3c0d0d;
-    --teal: #c89e4f;
-    --teal-dim: #b87e00;
-    --teal-glow: rgba(229, 0, 0, 0.18);
-    --blue: #ff1a1a;
-    --blue-dim: #cc1212;
-    --text: #e8f4ff;
-    --text-muted: #bf887a;
-    --border: rgba(225, 229, 0, 0.15);
-    --gold: #ffd700;
-    --grid-color: rgba(229, 206, 0, 0.055);
-  }
+/* ═══════════════════════════════════════════════
+   CSS VARIABLES
+═══════════════════════════════════════════════ */
+:root {
+  --bg-dark:    #4a0404;
+  --bg-card:    #280b0a;
+  --bg-card2:   #3c0d0d;
+  --gold:       #c89e4f;
+  --gold-glow:  rgba(200,158,79,0.18);
+  --gold-dim:   #b87e00;
+  --text:       #e8f4ff;
+  --text-muted: #bf887a;
+  --border:     rgba(200,158,79,0.18);
+  --grid-color: rgba(200,158,79,0.05);
+  --nav-h:      64px;
+}
 
-  * { margin:0; padding:0; box-sizing:border-box; }
+* { margin:0; padding:0; box-sizing:border-box; }
 
-  body {
-    background: var(--bg-dark);
-    color: var(--text);
-    font-family: 'Sarabun', sans-serif;
-    overflow-x: hidden;
-  }
+body {
+  background: var(--bg-dark);
+  color: var(--text);
+  font-family: 'Sarabun', sans-serif;
+  overflow-x: hidden;
+}
 
-  /* ── GRID BG ── */
-  body::before {
-    content:'';
-    position:fixed; inset:0; z-index:0;
-    background-image:
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 48px 48px;
-    pointer-events:none;
-  }
+/* ── GRID BG ── */
+body::before {
+  content:'';
+  position:fixed; inset:0; z-index:0;
+  background-image:
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 48px 48px;
+  pointer-events:none;
+}
 
-  /* ── NAVBAR ── */
-  nav {
-    position:sticky; top:0; z-index:100;
-    display:flex; align-items:center; justify-content:space-between;
-    padding:14px 40px;
-    background: rgba(26, 5, 5, 0.85);
-    backdrop-filter: blur(16px);
-    border-bottom: 1px solid var(--border);
-  }
-  .nav-logo {
-    font-family:'Space Mono',monospace;
-    font-size:1.1rem; font-weight:700;
-    color: var(--teal);
-    letter-spacing:2px;
-    text-shadow: 0 0 18px rgba(229, 0, 0, 0.6);
-  }
-  .nav-links { display:flex; gap:28px; }
-  .nav-links a {
-    color:var(--text-muted); text-decoration:none;
-    font-size:.92rem; font-weight:500; letter-spacing:.5px;
-    transition:.2s;
-  }
-  .nav-links a:hover { color:var(--teal); }
+/* ═══════════════════════════════════════════════
+   NAVBAR
+═══════════════════════════════════════════════ */
+nav {
+  position:sticky; top:0; z-index:200;
+  height: var(--nav-h);
+  display:flex; align-items:center; justify-content:space-between;
+  padding:0 32px;
+  background: rgba(26,5,5,0.92);
+  backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+}
 
-  /* ── HERO ── */
-  .hero {
-    position:relative; z-index:1;
-    text-align:center; padding:90px 20px 70px;
-    overflow:hidden;
-  }
-  .hero-badge {
-    display:inline-block;
-    background: var(--teal-glow);
-    border:1px solid var(--teal);
-    color:var(--teal);
-    font-family:'Space Mono',monospace;
-    font-size:.75rem; letter-spacing:3px;
-    padding:6px 18px; border-radius:99px;
-    margin-bottom:22px;
-    animation: fadeDown .7s ease both;
-  }
-  .hero h1 {
-    font-size:clamp(2.6rem,7vw,5.5rem);
-    font-weight:800; letter-spacing:-1px;
-    line-height:1.05;
-    animation: fadeDown .8s .1s ease both;
-  }
-  .hero h1 span { color:var(--teal); text-shadow: 0 0 40px rgba(229, 34, 0, 0.5); }
-  .hero-sub {
-    font-size:1.15rem; color:var(--text-muted);
-    margin-top:14px; margin-bottom:36px;
-    animation: fadeDown .8s .2s ease both;
-  }
-  .hero-school {
-    display:inline-flex; align-items:center; gap:10px;
-    background:var(--bg-card); border:1px solid var(--border);
-    padding:10px 22px; border-radius:99px;
-    font-size:.95rem; color:var(--text);
-    animation: fadeDown .8s .3s ease both;
-  }
-  .hero-school svg { color:var(--teal); }
+/* Logo block (รูป + ชื่อ) */
+.nav-brand {
+  display:flex; align-items:center; gap:12px;
+  text-decoration:none;
+}
+.nav-brand-img {
+  width:38px; height:38px; border-radius:50%;
+  border:2px solid var(--gold);
+  object-fit:cover;
+  /* fallback ถ้ายังไม่มีรูป */
+  background: var(--bg-card2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.2rem;
+  overflow:hidden;
+  flex-shrink:0;
+}
+.nav-brand-img img { width:100%; height:100%; object-fit:cover; }
+.nav-brand-name {
+  font-family:'Space Mono',monospace;
+  font-size:1rem; font-weight:700;
+  color: var(--gold);
+  letter-spacing:2px;
+  text-shadow: 0 0 14px rgba(200, 158, 79, 0.384);
+}
 
-  .hero-glow {
-    position:absolute; top:-120px; left:50%; transform:translateX(-50%);
-    width:700px; height:400px;
-    background: radial-gradient(ellipse at center, rgba(229, 225, 0, 0.1) 0%, transparent 70%);
-    pointer-events:none;
-  }
+/* Desktop links */
+.nav-links { display:flex; gap:26px; }
+.nav-links a {
+  color:var(--text-muted); text-decoration:none;
+  font-size:.9rem; font-weight:500; letter-spacing:.4px;
+  transition:.2s;
+}
+.nav-links a:hover { color:var(--gold); }
 
-  /* ── SECTION ── */
-  section { position:relative; z-index:1; padding:70px 20px; }
-  .section-label {
-    display:inline-flex; align-items:center; gap:8px;
-    font-family:'Space Mono',monospace; font-size:.7rem;
-    letter-spacing:3px; color:var(--teal); margin-bottom:10px;
-  }
-  .section-label::before { content:''; width:24px; height:1px; background:var(--teal); }
-  .section-title {
-    font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:700;
-    margin-bottom:12px;
-  }
-  .section-desc { color:var(--text-muted); max-width:600px; line-height:1.7; }
-  .section-header { max-width:1100px; margin:0 auto 50px; }
+/* Hamburger */
+.hamburger {
+  display:none; flex-direction:column; cursor:pointer; gap:5px;
+  padding:4px;
+}
+.hamburger span {
+  width:24px; height:2.5px;
+  background:var(--gold); border-radius:3px; transition:.3s;
+}
+.hamburger.active span:nth-child(1){ transform:rotate(45deg) translate(11px,11px); }
+.hamburger.active span:nth-child(2){ opacity:0; }
+.hamburger.active span:nth-child(3){ transform:rotate(-45deg) translate(9px,-9px); }
 
-  /* ── POLICY ── */
-  .policy-grid {
-    max-width:1100px; margin:0 auto;
-    display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:20px;
-  }
-  .policy-card {
-    background: var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:16px; padding:28px;
-    transition: transform .25s, box-shadow .25s, border-color .25s;
-    position:relative; overflow:hidden;
-  }
-  .policy-card::after {
-    content:''; position:absolute; inset:0;
-    background: linear-gradient(135deg, var(--teal-glow), transparent 60%);
-    opacity:0; transition:.3s;
-    border-radius:16px;
-  }
-  .policy-card:hover { transform:translateY(-5px); border-color:var(--teal); box-shadow:0 12px 40px rgba(0,229,200,0.12); }
-  .policy-card:hover::after { opacity:1; }
-  .policy-icon { font-size:2rem; margin-bottom:14px; }
-  .policy-card h3 { font-size:1.05rem; font-weight:700; margin-bottom:8px; color:var(--teal); }
-  .policy-card p { font-size:.9rem; color:var(--text-muted); line-height:1.65; }
+/* Mobile menu */
+.mobile-menu {
+  display:none; position:absolute; top:var(--nav-h);
+  left:0; width:100%;
+  background: rgba(26,5,5,0.98);
+  border-bottom:1px solid var(--border);
+  flex-direction:column;
+}
+.mobile-menu a {
+  padding:15px 24px;
+  color:var(--text-muted); text-decoration:none;
+  border-bottom:1px solid var(--border); transition:.2s;
+}
+.mobile-menu a:hover { color:var(--gold); background:var(--gold-glow); }
 
-  /* ── MEMBERS GRID ── */
-  .members-grid {
-    max-width:1100px; margin:0 auto;
-    display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:24px;
-  }
+/* ═══════════════════════════════════════════════
+   HERO (with video bg)
+═══════════════════════════════════════════════ */
+.hero {
+  position:relative; z-index:1;
+  text-align:center; padding:110px 20px 90px;
+  overflow:hidden; min-height:100vh;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+}
 
-  /* ── FLIP CARD ── */
-  .flip-wrapper {
-    perspective:1000px; height:320px; cursor:pointer;
-  }
-  .flip-inner {
-    position:relative; width:100%; height:100%;
-    transform-style:preserve-3d;
-    transition:transform .55s cubic-bezier(.4,0,.2,1);
-  }
-  .flip-wrapper:hover .flip-inner,
-  .flip-wrapper.flipped .flip-inner { transform:rotateY(180deg); }
+/* วิดีโอ background */
+.hero-video-wrap {
+  position:absolute; inset:0; z-index:0;
+  overflow:hidden;
+}
+.hero-video-wrap video {
+  width:100%; height:100%;
+  object-fit:cover;
+  opacity:.22;       /* ความเข้มวิดีโอ ปรับได้ 0-1 */
+}
+/* overlay gradient ทับวิดีโอ ให้ข้อความอ่านง่าย */
+.hero-video-wrap::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(
+    to bottom,
+    rgba(74,4,4,.55) 0%,
+    rgba(74,4,4,.30) 50%,
+    rgba(74,4,4,.70) 100%
+  );
+}
+
+.hero-content { position:relative; z-index:1; }
+
+.hero-badge {
+  display:inline-block;
+  background: var(--gold-glow);
+  border:1px solid var(--gold);
+  color:var(--gold);
+  font-family:'Space Mono',monospace;
+  font-size:.72rem; letter-spacing:3px;
+  padding:6px 18px; border-radius:99px;
+  margin-bottom:22px;
+  animation: fadeDown .7s ease both;
+}
+.hero h1 {
+  font-size:clamp(2.8rem,8vw,6rem);
+  font-weight:800; letter-spacing:-1px;
+  line-height:1.05;
+  animation: fadeDown .8s .1s ease both;
+}
+.hero h1 span { color:var(--gold); text-shadow: 0 0 50px rgba(200,158,79,.6); }
+.hero-sub {
+  font-size:1.15rem; color:var(--text-muted);
+  margin-top:14px; margin-bottom:38px;
+  animation: fadeDown .8s .2s ease both;
+}
+.hero-school {
+  display:inline-flex; align-items:center; gap:10px;
+  background:var(--bg-card); border:1px solid var(--border);
+  padding:10px 22px; border-radius:99px;
+  font-size:.95rem; color:var(--text);
+  animation: fadeDown .8s .3s ease both;
+}
+.hero-school svg { color:var(--gold); }
+
+/* Scroll hint */
+.hero-scroll {
+  position:absolute; bottom:30px; left:50%;
+  transform:translateX(-50%);
+  display:flex; flex-direction:column; align-items:center; gap:6px;
+  animation: fadeDown .8s .6s ease both;
+  opacity:.6;
+}
+.hero-scroll span { font-size:.7rem; font-family:'Space Mono',monospace; letter-spacing:2px; color:var(--gold); }
+.scroll-arrow { width:20px; height:20px; border-right:2px solid var(--gold); border-bottom:2px solid var(--gold); transform:rotate(45deg); animation:scrollBounce 1.4s infinite; }
+@keyframes scrollBounce { 0%,100%{transform:rotate(45deg) translateY(0)} 50%{transform:rotate(45deg) translateY(6px)} }
+
+/* ═══════════════════════════════════════════════
+   SHARED SECTION STYLES
+═══════════════════════════════════════════════ */
+section { position:relative; z-index:1; padding:80px 20px; }
+.section-label {
+  display:inline-flex; align-items:center; gap:8px;
+  font-family:'Space Mono',monospace; font-size:.68rem;
+  letter-spacing:3px; color:var(--gold); margin-bottom:10px;
+}
+.section-label::before { content:''; width:22px; height:1px; background:var(--gold); }
+.section-title { font-size:clamp(1.6rem,3.5vw,2.4rem); font-weight:700; margin-bottom:12px; }
+.section-desc { color:var(--text-muted); max-width:600px; line-height:1.7; }
+.section-header { max-width:1100px; margin:0 auto 50px; }
+
+/* ═══════════════════════════════════════════════
+   POLICY — IMAGE CARDS (3×2)
+═══════════════════════════════════════════════ */
+.policy-grid {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+}
+.policy-card {
+  position:relative; border-radius:18px; overflow:hidden;
+  border:1px solid var(--border);
+  aspect-ratio: 4/3;
+  cursor:default;
+  transition: transform .25s, box-shadow .25s, border-color .25s;
+}
+.policy-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 16px 48px rgba(200,158,79,.15); }
+
+/* รูปภาพ background */
+.policy-card-img {
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, var(--bg-card2), var(--bg-card)); /* fallback */
+  background-size:cover; background-position:center;
+}
+.policy-card-img img {
+  width:100%; height:100%; object-fit:cover;
+  transition: transform .4s;
+}
+.policy-card:hover .policy-card-img img { transform:scale(1.06); }
+
+/* overlay gradient ด้านล่าง */
+.policy-card-overlay {
+  position:absolute; inset:0;
+  background: linear-gradient(to top, rgba(40,11,10,.95) 0%, rgba(40,11,10,.40) 55%, transparent 100%);
+}
+
+/* ข้อความ */
+.policy-card-body {
+  position:absolute; bottom:0; left:0; right:0;
+  padding:20px 22px 22px;
+}
+.policy-card-icon { font-size:1.6rem; margin-bottom:8px; }
+.policy-card h3 { font-size:1rem; font-weight:700; color:var(--gold); margin-bottom:6px; }
+.policy-card p  { font-size:.82rem; color:#ccd8e8; line-height:1.6; }
+
+/* ═══════════════════════════════════════════════
+   "เลือกเราได้อะไร?" — ACCORDION FAQ
+═══════════════════════════════════════════════ */
+#whyus { background: rgba(0,0,0,.15); }
+
+.faq-grid {
+  max-width: 860px; margin:0 auto;
+  display:flex; flex-direction:column; gap:14px;
+}
+.faq-item {
+  background: var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px; overflow:hidden;
+  transition: border-color .25s;
+}
+.faq-item.open { border-color:var(--gold); }
+.faq-question {
+  width:100%; background:none; border:none;
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; padding:20px 24px;
+  cursor:pointer; color:var(--text);
+  font-family:'Sarabun',sans-serif; font-size:1rem; font-weight:600;
+  text-align:left;
+}
+.faq-question:hover { color:var(--gold); }
+.faq-icon {
+  width:28px; height:28px; flex-shrink:0;
+  border-radius:50%; border:1.5px solid var(--gold);
+  display:flex; align-items:center; justify-content:center;
+  color:var(--gold); font-size:1rem; font-weight:700;
+  transition: transform .35s, background .25s;
+}
+.faq-item.open .faq-icon { transform:rotate(45deg); background:var(--gold); color:#4a0404; }
+
+.faq-answer {
+  max-height:0; overflow:hidden;
+  transition: max-height .4s ease, padding .3s ease;
+}
+.faq-item.open .faq-answer { max-height:400px; }
+.faq-answer-inner {
+  padding:0 24px 20px;
+  color:var(--text-muted); font-size:.93rem; line-height:1.75;
+  border-top:1px solid var(--border);
+  padding-top:16px;
+}
+
+/* ═══════════════════════════════════════════════
+   MEMBERS — PRESIDENT
+═══════════════════════════════════════════════ */
+.president-wrap { max-width:1100px; margin:0 auto 52px; }
+.president-card {
+  background: linear-gradient(135deg,#3c0d0d,#280b0a);
+  border:1px solid rgba(200,158,79,.4);
+  border-radius:22px; padding:44px;
+  display:flex; align-items:center; gap:44px;
+  position:relative; overflow:hidden;
+  box-shadow:0 0 70px rgba(200,158,79,.08);
+}
+.president-card::before {
+  content:'PRESIDENT';
+  position:absolute; right:-10px; top:16px;
+  font-family:'Space Mono',monospace; font-size:5rem;
+  font-weight:700; color:rgba(200,158,79,.04);
+  letter-spacing:4px; pointer-events:none;
+}
+.president-avatar {
+  width:140px; height:140px; flex-shrink:0;
+  border:2.5px solid var(--gold); border-radius:50%;
+  overflow:hidden;
+  box-shadow:0 0 36px rgba(200,158,79,.3);
+  background:var(--bg-card2);
+  display:flex; align-items:center; justify-content:center;
+  font-size:3.5rem;
+}
+.president-avatar img { width:100%; height:100%; object-fit:cover; }
+.president-details h2 { font-size:1.75rem; font-weight:800; }
+.president-details .role-tag {
+  display:inline-block;
+  background:var(--gold); color:#4a0404;
+  font-family:'Space Mono',monospace; font-size:.68rem; letter-spacing:2px;
+  padding:4px 14px; border-radius:99px; margin:10px 0;
+  font-weight:700;
+}
+.president-details p { color:var(--text-muted); font-size:.95rem; line-height:1.65; max-width:460px; }
+.president-contacts { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
+.pres-contact {
+  display:flex; align-items:center; gap:7px;
+  background:rgba(255,255,255,.04); border:1px solid var(--border);
+  border-radius:99px; padding:7px 16px;
+  font-size:.82rem; color:var(--text); text-decoration:none; transition:.2s;
+}
+.pres-contact:hover { background:var(--gold-glow); border-color:var(--gold); color:var(--gold); }
+
+/* ═══════════════════════════════════════════════
+   MEMBERS — FLIP CARDS GRID
+═══════════════════════════════════════════════ */
+.members-grid {
+  max-width:1100px; margin:0 auto;
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(210px,1fr)); gap:22px;
+}
+.flip-wrapper { perspective:1000px; height:310px; cursor:pointer; }
+.flip-inner {
+  position:relative; width:100%; height:100%;
+  transform-style:preserve-3d;
+  transition:transform .55s cubic-bezier(.4,0,.2,1);
+}
+.flip-wrapper:hover .flip-inner,
+.flip-wrapper.flipped .flip-inner { transform:rotateY(180deg); }
 
 .flip-front, .flip-back {
-    position:absolute; inset:0;
-    backface-visibility:hidden;
-    -webkit-backface-visibility:hidden;
-    border-radius:18px;
-    border:1px solid var(--border);
-    overflow:hidden;
-    /* เพิ่มบรรทัดนี้เพื่อให้มือถือประมวลผล 3D ได้แม่นยำขึ้น */
-    transform-style: preserve-3d;
-  }
+  position:absolute; inset:0;
+  backface-visibility:hidden; -webkit-backface-visibility:hidden;
+  border-radius:18px; border:1px solid var(--border); overflow:hidden;
+}
+.flip-front {
+  background:var(--bg-card);
+  display:flex; flex-direction:column; align-items:center; justify-content:flex-end;
+  padding:20px 16px;
+}
+.member-photo {
+  position:absolute; inset:0;
+  background:linear-gradient(160deg,var(--bg-card2),var(--bg-dark));
+  display:flex; align-items:center; justify-content:center;
+  font-size:4.5rem;
+}
+.member-photo img { width:100%; height:100%; object-fit:cover; }
+.member-photo-overlay {
+  position:absolute; bottom:0; left:0; right:0; height:55%;
+  background:linear-gradient(to top,rgba(26,5,5,.97) 0%,transparent 100%);
+}
+.member-info { position:relative; z-index:2; text-align:center; width:100%; }
+.member-name { font-size:.95rem; font-weight:700; margin-bottom:6px; }
+.member-role {
+  display:inline-block;
+  background:var(--gold-glow); border:1px solid rgba(200,158,79,.4);
+  color:var(--gold); font-size:.68rem; letter-spacing:1px;
+  font-family:'Space Mono',monospace; padding:3px 10px; border-radius:99px;
+}
+.flip-hint {
+  position:absolute; top:12px; right:12px;
+  font-size:.62rem; color:var(--text-muted);
+  font-family:'Space Mono',monospace; opacity:.65;
+}
+.flip-back {
+  background:linear-gradient(135deg,#3c0d0d,#280b0a);
+  border-color:rgba(200,158,79,.3);
+  transform:rotateY(180deg);
+  display:flex; flex-direction:column; align-items:center; justify-content:center;
+  padding:20px 18px; gap:12px; text-align:center;
+}
+.flip-back h4 { font-size:.95rem; font-weight:700; color:var(--gold); }
+.flip-back .back-role { font-size:.72rem; color:var(--text-muted); font-family:'Space Mono',monospace; }
+.contact-list { display:flex; flex-direction:column; gap:9px; width:100%; }
+.contact-item {
+  display:flex; align-items:center; gap:9px;
+  background:rgba(255,255,255,.04); border:1px solid var(--border);
+  border-radius:10px; padding:8px 13px;
+  font-size:.8rem; color:var(--text); text-decoration:none; transition:.2s;
+}
+.contact-item:hover { background:var(--gold-glow); border-color:var(--gold); color:var(--gold); }
 
-  /* FRONT */
-  .flip-front {
-    background: var(--bg-card);
-    /* --- แก้ไขตรงนี้ --- */
-    display:flex;
-    flex-direction:column;
-    justify-content:flex-end; /* ผลักเนื้อหาทั้งหมดลงด้านล่าง */
-    /* ------------------ */
-    padding:22px 18px;
-  }
+/* ═══════════════════════════════════════════════
+   REQUEST — GOOGLE FORM
+═══════════════════════════════════════════════ */
+#request { background:rgba(0,0,0,.1); }
 
-  .flip-back {
-    /* ของเดิมมี rotateY(180deg) อยู่แล้ว ให้เพิ่ม translateZ เข้าไปต่อท้าย */
-    transform: rotateY(180deg) translateZ(1px); 
-    z-index: 1;
-  }
-  .member-photo {
-    position:absolute; inset:0;
-    background: linear-gradient(160deg, var(--bg-card2), var(--bg-dark));
-    display:flex; align-items:center; justify-content:center;
-    font-size:4.5rem;
-  }
-  .member-photo img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* ทำให้รูปเต็มกรอบพอดี โดยไม่เสียสัดส่วน */
-    display: block;
-  }
-  .member-photo-overlay {
-    position:absolute; bottom:0; left:0; right:0; height:55%;
-    background:linear-gradient(to top, rgba(26, 5, 5, 0.97) 0%, transparent 100%);
-  }
-  .member-info { position:relative; z-index:2; text-align:center; width:100%; }
-  .member-name { font-size:1rem; font-weight:700; margin-bottom:6px; }
-  .member-role {
-    display:inline-block;
-    background: var(--teal-glow);
-    border:1px solid rgba(229, 225, 0, 0.4);
-    color:var(--teal);
-    font-size:.72rem; letter-spacing:1px; font-family:'Space Mono',monospace;
-    padding:3px 10px; border-radius:99px;
-  }
+.request-box {
+  max-width:860px; margin:0 auto;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:22px; overflow:hidden;
+}
+.request-header {
+  padding:28px 32px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex; align-items:center; gap:14px;
+}
+.request-header-icon {
+  width:46px; height:46px; flex-shrink:0;
+  background:var(--gold-glow); border:1px solid var(--gold);
+  border-radius:12px;
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.5rem;
+}
+.request-header h3 { font-size:1.2rem; font-weight:700; }
+.request-header p  { font-size:.88rem; color:var(--text-muted); margin-top:3px; }
+.request-iframe-wrap {
+  position:relative; width:100%;
+  height:600px;   /* ปรับความสูง Google Form ได้ */
+  overflow:hidden;
+}
+.request-iframe-wrap iframe {
+  width:100%; height:100%; border:0;
+  background:transparent;
+}
+/* Loading placeholder */
+.request-iframe-wrap::before {
+  content:'กำลังโหลดฟอร์ม...';
+  position:absolute; inset:0;
+  display:flex; align-items:center; justify-content:center;
+  color:var(--text-muted); font-size:.9rem;
+  pointer-events:none;
+}
 
-  /* BACK */
-  .flip-back {
-    background: linear-gradient(135deg, #332907, #300a0a);
-    border-color: rgba(229, 195, 0, 0.3);
-    transform:rotateY(180deg);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    padding:24px 20px; gap:14px;
-    text-align:center;
-  }
-  .flip-back h4 { font-size:1rem; font-weight:700; color:var(--teal); }
-  .flip-back .back-role {
-    font-size:.78rem; color:var(--text-muted);
-    font-family:'Space Mono',monospace; letter-spacing:1px;
-  }
-  .contact-list { display:flex; flex-direction:column; gap:10px; width:100%; margin-top:6px; }
-  .contact-item {
-    display:flex; align-items:center; gap:10px;
-    background:rgba(255,255,255,.04);
-    border:1px solid var(--border);
-    border-radius:10px; padding:9px 14px;
-    font-size:.82rem; color:var(--text);
-    text-decoration:none;
-    transition:.2s;
-  }
-  .contact-item:hover { background:var(--teal-glow); border-color:var(--teal); color:var(--teal); }
-  .contact-icon { font-size:1rem; flex-shrink:0; }
-  .flip-hint {
-    position:absolute; top:14px; right:14px;
-    font-size:.65rem; color:var(--text-muted);
-    font-family:'Space Mono',monospace;
-    display:flex; align-items:center; gap:4px;
-    opacity:.7;
-  }
+/* ═══════════════════════════════════════════════
+   LOCATION
+═══════════════════════════════════════════════ */
+.location-box {
+  max-width:1100px; margin:0 auto;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:20px; padding:40px;
+  display:grid; grid-template-columns:1fr 1fr; gap:40px;
+  align-items:center;
+}
+.location-box h3 { font-size:1.35rem; font-weight:700; margin-bottom:10px; }
+.location-box > div > p { color:var(--text-muted); line-height:1.75; margin-bottom:20px; }
+.location-detail { display:flex; flex-direction:column; gap:13px; }
+.loc-item {
+  display:flex; align-items:flex-start; gap:12px;
+  background:rgba(255,255,255,.03); border:1px solid var(--border);
+  border-radius:12px; padding:13px 15px;
+}
+.loc-icon { font-size:1.2rem; flex-shrink:0; }
+.loc-text { font-size:.88rem; line-height:1.55; color:var(--text); }
+.loc-text strong { color:var(--gold); display:block; margin-bottom:2px; font-size:.76rem; letter-spacing:.5px; }
+.location-map { width:100%; height:260px; border-radius:14px; border:1px solid var(--border); overflow:hidden; }
+.location-map iframe { width:100%; height:100%; border:0; filter:invert(.9) hue-rotate(180deg) saturate(.7); }
 
-  /* ── PRESIDENT SPECIAL CARD ── */
-  .president-wrap {
-    max-width:1100px; margin:0 auto 50px;
-  }
-  .president-card {
-    background: linear-gradient(135deg, #330707, #3b280c);
-    border:1px solid rgba(229, 206, 0, 0.4);
-    border-radius:20px; padding:40px;
-    display:flex; align-items:center; gap:40px;
-    position:relative; overflow:hidden;
-    box-shadow:0 0 60px rgba(229, 0, 0, 0.08);
-  }
-  .president-card::before {
-    content:'PRESIDENT';
-    position:absolute; right:-20px; top:20px;
-    font-family:'Space Mono',monospace; font-size:5rem;
-    font-weight:700; color:rgba(0,229,200,0.04);
-    letter-spacing:4px; pointer-events:none;
-  }
-  .president-avatar {
-    width:130px; height:130px; flex-shrink:0;
-    background: linear-gradient(135deg, #4a200d, #38170a);
-    border:2px solid var(--teal);
-    border-radius:50%;
-    display:flex; align-items:center; justify-content:center;
-    font-size:3.5rem;
-    box-shadow:0 0 30px rgba(0,229,200,0.25);
-  }
-  .president-details h2 { font-size:1.7rem; font-weight:800; }
-  .president-details .role-tag {
-    display:inline-block;
-    background:var(--teal); color:#050d1a;
-    font-family:'Space Mono',monospace; font-size:.7rem; letter-spacing:2px;
-    padding:4px 14px; border-radius:99px; margin:10px 0;
-    font-weight:700;
-  }
-  .president-details p { color:var(--text-muted); font-size:.95rem; line-height:1.65; max-width:460px; }
-  .president-contacts { display:flex; gap:10px; margin-top:16px; flex-wrap:wrap; }
-  .pres-contact {
-    display:flex; align-items:center; gap:7px;
-    background:rgba(255,255,255,.04); border:1px solid var(--border);
-    border-radius:99px; padding:7px 16px;
-    font-size:.82rem; color:var(--text);
-    text-decoration:none; transition:.2s;
-  }
-  .pres-contact:hover { background:var(--teal-glow); border-color:var(--teal); color:var(--teal); }
+/* ═══════════════════════════════════════════════
+   CONTACT US — FOOTER SECTION
+═══════════════════════════════════════════════ */
+.contact-section {
+  position:relative; z-index:1;
+  background: linear-gradient(to bottom, var(--bg-dark), #2a030300);
+  border-top:1px solid var(--border);
+  padding:70px 20px 0;
+  text-align:center;
+}
+.contact-inner { max-width:700px; margin:0 auto; }
+.contact-inner .section-label { justify-content:center; }
+.contact-inner .section-title { margin-bottom:6px; }
+.contact-inner .section-desc { margin:0 auto 36px; }
 
-  /* ── LOCATION ── */
-  .location-box {
-    max-width:1100px; margin:0 auto;
-    background:var(--bg-card);
-    border:1px solid var(--border);
-    border-radius:20px; padding:40px;
-    display:grid; grid-template-columns:1fr 1fr; gap:40px;
-    align-items:center;
-  }
-  .location-box h3 { font-size:1.4rem; font-weight:700; margin-bottom:10px; }
-  .location-box p { color:var(--text-muted); line-height:1.75; margin-bottom:20px; }
-  .location-map {
-    width:100%; height:260px; border-radius:14px;
-    border:1px solid var(--border); overflow:hidden;
-  }
-  .location-map iframe { width:100%; height:100%; border:0; filter:invert(.9) hue-rotate(180deg) saturate(.7); }
-  .location-detail { display:flex; flex-direction:column; gap:14px; }
-  .loc-item {
-    display:flex; align-items:flex-start; gap:12px;
-    background:rgba(255,255,255,.03); border:1px solid var(--border);
-    border-radius:12px; padding:14px 16px;
-  }
-  .loc-icon { font-size:1.3rem; flex-shrink:0; }
-  .loc-text { font-size:.9rem; line-height:1.55; color:var(--text); }
-  .loc-text strong { color:var(--teal); display:block; margin-bottom:2px; font-size:.8rem; letter-spacing:.5px; }
+.contact-links {
+  display:flex; justify-content:center; gap:16px;
+  flex-wrap:wrap; margin-bottom:60px;
+}
+.contact-link {
+  display:flex; align-items:center; gap:10px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:99px; padding:12px 24px;
+  color:var(--text); text-decoration:none;
+  font-size:.92rem; font-weight:600; letter-spacing:.3px;
+  transition:.25s;
+}
+.contact-link:hover { background:var(--gold-glow); border-color:var(--gold); color:var(--gold); transform:translateY(-3px); box-shadow:0 10px 28px rgba(200,158,79,.12); }
+.contact-link .cl-icon { font-size:1.25rem; }
 
-  /* ── FOOTER ── */
-  footer {
-    position:relative; z-index:1;
-    border-top:1px solid var(--border);
-    padding:40px 40px; text-align:center;
-  }
-  footer .footer-logo {
-    font-family:'Space Mono',monospace; font-size:1.3rem; font-weight:700;
-    color:var(--teal); letter-spacing:3px;
-    text-shadow:0 0 20px rgba(0,229,200,0.4);
-    margin-bottom:10px;
-  }
-  footer p { color:var(--text-muted); font-size:.88rem; }
+/* ── FOOTER BAR ── */
+footer {
+  position:relative; z-index:1;
+  background: linear-gradient(to bottom, var(--bg-dark), #2a0303);
+  border-top:1px solid var(--border);
+  padding:30px 20px; text-align:center;
+}
+footer .footer-logo {
+  font-family:'Space Mono',monospace; font-size:1.2rem; font-weight:700;
+  color:var(--gold); letter-spacing:3px;
+  text-shadow:0 0 18px rgba(200, 158, 79, 0.788);
+  margin-bottom:8px;
+}
+footer p { color:var(--text-muted); font-size:.85rem; }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeDown {
-    from { opacity:0; transform:translateY(-20px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  @keyframes fadeUp {
-    from { opacity:0; transform:translateY(30px); }
-    to   { opacity:1; transform:translateY(0); }
-  }
-  .reveal { opacity:0; transform:translateY(30px); transition: opacity .6s, transform .6s; }
-  .reveal.visible { opacity:1; transform:none; }
+/* ═══════════════════════════════════════════════
+   DIVIDER
+═══════════════════════════════════════════════ */
+.divider {
+  max-width:1100px; margin:0 auto;
+  height:1px; background:linear-gradient(90deg,transparent,var(--gold),transparent);
+  opacity:.25;
+}
 
-  /* ── DIVIDER ── */
-  .divider {
-    max-width:1100px; margin:0 auto;
-    height:1px; background:linear-gradient(90deg,transparent,var(--teal),transparent);
-    opacity:.3;
-  }
+/* ═══════════════════════════════════════════════
+   ANIMATIONS
+═══════════════════════════════════════════════ */
+@keyframes fadeDown {
+  from { opacity:0; transform:translateY(-22px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+.reveal { opacity:0; transform:translateY(28px); transition:opacity .6s, transform .6s; }
+.reveal.visible { opacity:1; transform:none; }
 
-  @media(max-width:768px){
-    nav { padding:12px 20px; }
-    .nav-links { gap:16px; }
-    .president-card { flex-direction:column; text-align:center; padding:28px 20px; }
-    .president-contacts { justify-content:center; }
-    .location-box { grid-template-columns:1fr; }
-  }
-  @media(max-width:500px){
-    .hero { padding:60px 16px 50px; }
-    .members-grid { grid-template-columns:1fr 1fr; gap:14px; }
-    .flip-wrapper { height:280px; }
-  }
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media(max-width:1024px){
+  .policy-grid { grid-template-columns:repeat(2,1fr); }
+}
+@media(max-width:768px){
+  nav { padding:0 16px; }
+  .nav-links { display:none; }
+  .hamburger { display:flex; }
+  .mobile-menu.active { display:flex; }
+
+  .president-card { flex-direction:column; text-align:center; padding:28px 18px; gap:20px; }
+  .president-contacts { justify-content:center; }
+  .location-box { grid-template-columns:1fr; padding:24px; }
+  .policy-grid { grid-template-columns:1fr 1fr; }
+
+  .request-iframe-wrap { height:520px; }
+}
+@media(max-width:520px){
+  .hero { padding:80px 16px 70px; }
+  .members-grid { grid-template-columns:1fr 1fr; gap:13px; }
+  .flip-wrapper { height:280px; }
+  .policy-grid { grid-template-columns:1fr; }
+  .policy-card { aspect-ratio:16/9; }
+}
 </style>
 </head>
 <body>
 
-<!-- NAVBAR -->
+<!-- ═══════════════════════════════════════════════
+     NAVBAR
+═══════════════════════════════════════════════ -->
 <nav>
-  <div class="nav-logo">1 LASALLE UNITY</div>
+  <!-- โลโก้ + ชื่อพรรค -->
+  <a class="nav-brand" href="#about">
+    <div class="nav-brand-img">
+      <!-- ══ ใส่ URL โลโก้พรรคที่นี่ ══ -->
+      <img src="images/logounity.jpg" alt="#1 LASALLE UNITY"
+           onerror="this.style.display='none';this.parentElement.textContent='🏫'">
+    </div>
+    <span class="nav-brand-name">LASALLE UNITY</span>
+  </a>
+
+  <!-- Desktop nav -->
   <div class="nav-links">
     <a href="#about">เกี่ยวกับ</a>
     <a href="#policy">นโยบาย</a>
+    <a href="#whyus">เลือกเราได้อะไร?</a>
     <a href="#members">สมาชิก</a>
+    <a href="#request">เสนอแนะ</a>
     <a href="#location">โรงเรียน</a>
+  </div>
+
+  <!-- Hamburger -->
+  <div class="hamburger" id="hamburger">
+    <span></span><span></span><span></span>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobile-menu">
+  <a href="#about">เกี่ยวกับ</a>
+  <a href="#policy">นโยบาย</a>
+  <a href="#whyus">เลือกเราได้อะไร?</a>
+  <a href="#members">สมาชิก</a>
+  <a href="#request">ข้อเสนอแนะ</a>
+  <a href="#location">โรงเรียน</a>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════
+     HERO (Video Background)
+═══════════════════════════════════════════════ -->
 <div class="hero" id="about">
-  <div class="hero-glow"></div>
-  <div class="hero-badge">สภานักเรียน • ปีการศึกษา 2569</div>
-  <h1>LASALLE<br><span>UNITY</span></h1>
-  <p class="hero-sub">รวมพลัง สร้างสรรค์ พัฒนาโรงเรียน เพื่อนักเรียนทุกคน</p>
-  <div class="hero-school">
-    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/></svg>
-    โรงเรียนลาซาล กรุงเทพมหานคร
+
+  <!-- ══ VIDEO BACKGROUND ══
+       วิธีใช้: อัพโหลดวิดีโอลง GitHub แล้วเปลี่ยน src ด้านล่าง
+       หรือจะลบ <video> ออกก็ได้ถ้าไม่ใช้ -->
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline
+           src="images/hero-video.mp4"
+           onerror="this.style.display='none'">
+    </video>
+  </div>
+  <!-- ════════════════════════ -->
+
+  <div class="hero-content">
+    <div class="hero-badge">สภานักเรียน • ปีการศึกษา 2569</div>
+    <h1>LASALLE<br><span>UNITY</span></h1>
+    <p class="hero-sub">รวมพลัง สร้างสรรค์ พัฒนาโรงเรียน เพื่อนักเรียนทุกคน</p>
+    <div class="hero-school">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z"/>
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+      </svg>
+      โรงเรียนลาซาล กรุงเทพมหานคร
+    </div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>เลื่อนลง</span>
+    <div class="scroll-arrow"></div>
   </div>
 </div>
 
-<!-- POLICY -->
+
+<!-- ═══════════════════════════════════════════════
+     POLICY — Image Cards
+═══════════════════════════════════════════════ -->
 <section id="policy">
   <div class="section-header reveal">
     <div class="section-label">POLICY</div>
     <h2 class="section-title">นโยบายของเรา</h2>
-    <p class="section-desc">LASALLE UNITY มุ่งมั่นพัฒนาโรงเรียนให้ดียิ่งขึ้น ด้วยนโยบาย 5 ด้านหลัก เพื่อนักเรียนทุกคน</p>
+    <p class="section-desc">LASALLE UNITY มุ่งมั่นพัฒนาโรงเรียนให้ดียิ่งขึ้น ด้วยนโยบาย 6 ด้านหลัก เพื่อนักเรียนทุกคน</p>
   </div>
   <div class="policy-grid">
+
+    <!-- ══ นโยบายแต่ละอัน ——
+         เปลี่ยน src ของ <img> เป็น URL รูปภาพจาก GitHub ของคุณ
+         ตัวอย่าง: https://raw.githubusercontent.com/USER/REPO/main/images/policy1.jpg
+    ══ -->
+
     <div class="policy-card reveal">
-      <div class="policy-icon">🎓</div>
-      <h3>นโยบายด้านวิชาการ</h3>
-      <p>-บอร์ดข่าวสารจัดทำบริเวณตึกม.ปลาย เพื่อรวบรวมข่าวสารสำคัญ เช่น ข่าวสาร myTCAS และ ข้อมูลการวางแผนอนาคตสำหรับนักเรียนม.ปลาย<br>-แบบฟอร์มสอบถามทุกๆต้นเดือนให้กรอกปัญหาที่พบเจอภายในโรงเรียน</p>
+      <div class="policy-card-img">
+        <img src="images/subjectunity.jpg" alt="วิชาการ"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="policy-card-overlay"></div>
+      <div class="policy-card-body">
+        <div class="policy-card-icon">🎓</div>
+        <h3>นโยบายด้านวิชาการ</h3>
+        <p>บอร์ดข่าวสาร myTCAS และแบบฟอร์มสอบถามปัญหาทุกต้นเดือน</p>
+      </div>
     </div>
+
     <div class="policy-card reveal">
-      <div class="policy-icon">🌿</div>
-      <h3>นโยบายด้านนันทนาการ</h3>
-      <p>-จะมีการจัดกิจกรรมโฟล์คซองบริเวณหน้าตึกม.ปลาย และเปิดให้นักเรียนรีเควสเพลงผ่านไอจีของพรรคได้ทุกเดือน<br>-กิจกรรมตลาดนัดของนักเรียน แต่ละห้องสามารถนำสินค้าและอาหารมาขายได้และเราจะโปรโมทให้ผ่านไอจีพรรค</p>
+      <div class="policy-card-img">
+        <img src="images/recreationunity.jpg" alt="นันทนาการ"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="policy-card-overlay"></div>
+      <div class="policy-card-body">
+        <div class="policy-card-icon">🌿</div>
+        <h3>นโยบายด้านนันทนาการ</h3>
+        <p>กิจกรรมโฟล์คซอง รีเควสเพลง และตลาดนัดนักเรียนทุกเดือน</p>
+      </div>
     </div>
+
     <div class="policy-card reveal">
-      <div class="policy-icon">🎨</div>
-      <h3>นโยบายด้านความสะอาด</h3>
-      <p>-ห้องน้ำหญิง จะมีถังเล็กสำหรับทิ้งผ้าอนามัย และเพิ่มจุดทิ้งขยะให้สะดวกมากขึ้น<br>-จะมีชั้นวางของสำหรับนักเรียนหญิงเพื่อให้นักเรียนได้วางสำภาระต่าอที่จะได้เข้าห้องน้ำได้สะดวกมากยิ่งขึ้น</p>
+      <div class="policy-card-img">
+        <img src="images/cleanunity.jpg" alt="ความสะอาด"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="policy-card-overlay"></div>
+      <div class="policy-card-body">
+        <div class="policy-card-icon">🎨</div>
+        <h3>นโยบายด้านความสะอาด</h3>
+        <p>ถังทิ้งผ้าอนามัยและชั้นวางของในห้องน้ำหญิง</p>
+      </div>
     </div>
+
     <div class="policy-card reveal">
-      <div class="policy-icon">🤝</div>
-      <h3>นโยบายด้านความปลอดภัย</h3>
-      <p>-ตรวจสอบอุปกรณ์ความปลอดภัยเช่นถังดับเพลิง<br>-ติดบอร์ดให้ความรู้เรื่องเอาตัวรอดเบื้องต้นในเหตุการณ์ฉุกเฉิน</p>
+      <div class="policy-card-img">
+        <img src="images/securityunity.jpg" alt="ความปลอดภัย"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="policy-card-overlay"></div>
+      <div class="policy-card-body">
+        <div class="policy-card-icon">🤝</div>
+        <h3>นโยบายด้านความปลอดภัย</h3>
+        <p>ตรวจสอบถังดับเพลิงและติดบอร์ดเอาตัวรอดในเหตุฉุกเฉิน</p>
+      </div>
     </div>
+
     <div class="policy-card reveal">
-      <div class="policy-icon">💡</div>
-      <h3>นโยบายด้านระเบียบ</h3>
-      <p>-จัดทำผลรายงานการทำงานของฝ่ายปกครองเป็นรายเดือนพร้อมข้อเสนอปรับปรุงแล้วนำส่งมายังสภาเพื่อปรับปรุงแก้ไข<br>-จัดเวรยืนดูแลความสะอาดโรงอาหารให้เรียมร้อย</p>
+      <div class="policy-card-img">
+        <img src="images/regulatioonunity.jpg" alt="ระเบียบ"
+             onerror="this.style.display='none'">
+      </div>
+      <div class="policy-card-overlay"></div>
+      <div class="policy-card-body">
+        <div class="policy-card-icon">💡</div>
+        <h3>นโยบายด้านระเบียบ</h3>
+        <p>รายงานการทำงานฝ่ายปกครองรายเดือนและเวรดูแลโรงอาหาร</p>
+      </div>
     </div>
   </div>
 </section>
 
 <div class="divider"></div>
 
-<!-- PRESIDENT -->
-<section id="members" style="padding-bottom:30px;">
+<!-- ═══════════════════════════════════════════════
+     เลือกเราได้อะไร? — ACCORDION FAQ
+═══════════════════════════════════════════════ -->
+<section id="whyus">
+  <div class="section-header reveal">
+    <div class="section-label">WHY US</div>
+    <h2 class="section-title">เลือกเราได้อะไร?</h2>
+    <p class="section-desc">เหตุผลที่ LASALLE UNITY คือตัวเลือกที่ดีที่สุดสำหรับทุกคน</p>
+  </div>
+
+  <div class="faq-grid">
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <span>🎯 เราฟังเสียงนักเรียนทุกคน</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla facilisi. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. เราเปิดรับฟังปัญหาและข้อเสนอแนะจากนักเรียนทุกคนผ่านช่องทางต่างๆ ทั้งออนไลน์และออฟไลน์ เพื่อพัฒนาโรงเรียนให้ตรงกับความต้องการของนักเรียนอย่างแท้จริง
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <span>💼 ทีมงานมีความเชี่ยวชาญหลากหลายด้าน</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris. สมาชิกสภานักเรียน LASALLE UNITY แต่ละคนมีความสามารถเฉพาะด้าน ทั้งด้านวิชาการ กิจกรรม ประชาสัมพันธ์ และการจัดการ พร้อมทำงานเป็นทีมเพื่อโรงเรียนของเรา
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <span>🚀 นโยบายชัดเจน ทำได้จริง</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore. ทุกนโยบายของเราถูกออกแบบมาจากปัญหาจริงที่นักเรียนพบเจอ มีขั้นตอนการดำเนินการที่ชัดเจน สามารถวัดผลได้ และทำให้สำเร็จได้ภายในปีการศึกษานี้
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <span>🌟 โปร่งใส ตรวจสอบได้</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit. เราเชื่อในความโปร่งใส มีการรายงานผลการดำเนินงานรายเดือน นักเรียนทุกคนสามารถติดตามความคืบหน้าและตรวจสอบการทำงานของเราได้ตลอดเวลา
+        </div>
+      </div>
+    </div>
+
+    <div class="faq-item reveal">
+      <button class="faq-question">
+        <span>🤝 สร้างความสัมพันธ์ที่ดีระหว่างนักเรียนและครู</span>
+        <div class="faq-icon">+</div>
+      </button>
+      <div class="faq-answer">
+        <div class="faq-answer-inner">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque. เราทำหน้าที่เป็นสะพานเชื่อมระหว่างนักเรียนและครูอาจารย์ สร้างสภาพแวดล้อมการเรียนรู้ที่เป็นมิตร ส่งเสริมการสื่อสารที่สร้างสรรค์และการแก้ปัญหาร่วมกัน
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════
+     MEMBERS
+═══════════════════════════════════════════════ -->
+<section id="members" style="padding-bottom:32px;">
   <div class="section-header reveal">
     <div class="section-label">MEMBERS</div>
     <h2 class="section-title">สมาชิกสภานักเรียน</h2>
     <p class="section-desc">ทีมงานสภานักเรียน LASALLE UNITY ทั้ง 20 ท่าน พร้อมทุ่มเทเพื่อโรงเรียนของเรา</p>
   </div>
 
-  <!-- President Card -->
+  <!-- President -->
   <div class="president-wrap reveal">
     <div class="president-card">
       <div class="president-avatar">
-  <img src="images/boeingunity.jpeg.jpg" alt="ประธาน" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%;">
-</div>
+        <!-- ══ ใส่รูปประธานที่นี่ ══ -->
+        <img src="images/boeingunity.jpeg.jpg" alt="ประธาน"
+             onerror="this.style.display='none';this.parentElement.textContent='👨‍🎓'">
+      </div>
       <div class="president-details">
         <h2>นายชนะภัทร รัตนานุภาพ</h2>
         <span class="role-tag">ประธานสภานักเรียน</span>
         <p>มุ่งมั่นพัฒนาโรงเรียนลาซาลให้เป็นพื้นที่แห่งการเรียนรู้และความสุขสำหรับนักเรียนทุกคน ภายใต้แนวคิด "รวมพลัง สร้างสรรค์ พัฒนา"</p>
         <div class="president-contacts">
-          <a class="pres-contact">👤ชื่อเล่น : Boeing (โบอิ้ง)</a>
-          <a href="https://www.instagram.com/24hwith_.bo?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" class="pres-contact" target="_blank">📷 IG : @24hwith_.bo</a>
+          <a class="pres-contact">👤 ชื่อเล่น: Boeing (โบอิ้ง)</a>
+          <a href="https://www.instagram.com/24hwith_.bo" class="pres-contact" target="_blank">
+            📷 IG: @24hwith_.bo
+          </a>
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Members Grid (flip cards) -->
+  <!-- Members flip cards -->
   <div class="members-grid" id="members-grid"></div>
 </section>
 
 <div class="divider" style="margin-top:50px;"></div>
 
-<!-- LOCATION -->
+<!-- ═══════════════════════════════════════════════
+     REQUEST — GOOGLE FORM
+═══════════════════════════════════════════════ -->
+<section id="request">
+  <div class="section-header reveal">
+    <div class="section-label">REQUEST</div>
+    <h2 class="section-title">เสนอปรับปรุงและแก้ไข</h2>
+    <p class="section-desc">มีข้อเสนอแนะ ปัญหา หรืออยากให้สภาช่วยอะไร? บอกเราได้เลยครับ!</p>
+  </div>
+
+  <div class="request-box reveal">
+    <div class="request-header">
+      <div class="request-header-icon">📝</div>
+      <div>
+        <h3>แบบฟอร์มเสนอแนะ</h3>
+        <p>ข้อมูลของคุณจะถูกส่งตรงถึงสภานักเรียน — กรอกได้เลยครับ</p>
+      </div>
+    </div>
+    <div class="request-iframe-wrap">
+      <!-- ══════════════════════════════════════════
+           วิธีใส่ Google Form:
+           1. เปิด Google Form ของคุณ
+           2. คลิก ส่ง (Send) → แท็บ <> (Embed)
+           3. คัดลอก URL ใน src="..."
+           4. วาง URL แทนที่ YOUR_GOOGLE_FORM_URL ด้านล่าง
+      ══════════════════════════════════════════ -->
+      <iframe
+        src="https://forms.gle/cCD8PWFjVxLskbCc9"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        loading="lazy">
+        กำลังโหลด…
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ═══════════════════════════════════════════════
+     LOCATION
+═══════════════════════════════════════════════ -->
 <section id="location">
   <div class="section-header reveal">
     <div class="section-label">LOCATION</div>
@@ -505,8 +937,8 @@
       <div class="loc-item">
         <span class="loc-icon">🌐</span>
         <div class="loc-text">
-          <strong>เว็บไซต์โรงเรียนลาซาล</strong>
-          <a href="https://www.lasalleschool.ac.th/" target="blank">www.lasalleschool.ac.th</a>
+          <strong>เว็บไซต์โรงเรียน</strong>
+          <a href="https://www.lasalleschool.ac.th/" target="_blank">www.lasalleschool.ac.th</a>
         </div>
       </div>
     </div>
@@ -519,166 +951,110 @@
   </div>
 </section>
 
-<!-- FOOTER -->
+
+<!-- ═══════════════════════════════════════════════
+     CONTACT US + FOOTER
+═══════════════════════════════════════════════ -->
+<div class="contact-section">
+  <div class="contact-inner reveal">
+    <div class="section-label">CONTACT US</div>
+    <h2 class="section-title">ติดต่อสภานักเรียน</h2>
+    <p class="section-desc">ติดตามข่าวสารและกิจกรรมล่าสุดของสภานักเรียน LASALLE UNITY ได้ที่</p>
+
+    <div class="contact-links">
+
+      <!-- ══ Instagram พรรค — เปลี่ยน YOUR_IG_HANDLE เป็น username จริง ══ -->
+      <a href="https://www.instagram.com/un1tycandidate?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" class="contact-link">
+        <span class="cl-icon">📸</span>
+        IG : un1tycandidate
+      </a>
+
+      <!-- ══ เพิ่มช่องทางอื่นได้ที่นี่ เช่น Facebook, LINE OA ══ -->
+      <!-- <a href="#" target="_blank" class="contact-link">
+        <span class="cl-icon">💬</span>
+        LINE Official Account
+      </a> -->
+
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="footer-logo">LASALLE UNITY</div>
   <p>สภานักเรียนโรงเรียนลาซาล • ปีการศึกษา 2569</p>
-  <p style="margin-top:6px;font-size:.8rem;">รวมพลัง สร้างสรรค์ พัฒนาโรงเรียน เพื่อนักเรียนทุกคน</p>
+  <p style="margin-top:6px;font-size:.78rem;">รวมพลัง สร้างสรรค์ พัฒนาโรงเรียน เพื่อนักเรียนทุกคน</p>
 </footer>
 
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
 <script>
-// ── Members data (19 people) ──
+/* ── Hamburger ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+hamburger.addEventListener('click', () => {
+  hamburger.classList.toggle('active');
+  mobileMenu.classList.toggle('active');
+});
+document.querySelectorAll('.mobile-menu a').forEach(a => {
+  a.addEventListener('click', () => {
+    hamburger.classList.remove('active');
+    mobileMenu.classList.remove('active');
+  });
+});
+
+/* ── FAQ Accordion ── */
+document.querySelectorAll('.faq-question').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const item = btn.closest('.faq-item');
+    const isOpen = item.classList.contains('open');
+
+    // ปิดทั้งหมดก่อน (เปิดได้ทีละ 1)
+    document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+
+    // toggle ตัวที่คลิก
+    if (!isOpen) item.classList.add('open');
+  });
+});
+
+/* ── Members data ── */
 const members = [
-  { name:"นาย ธีรนัย ใสสด",
-   role:"รองประธาน คนที่ 1",
-   emoji:"👩‍🎓",
-    line:"@vice1",
-     ig:"aamthuutny",
-      Nickname:"Arm (อาร์ม)",
-    photo:"images/armunity.jpeg.jpg" },
-  { name:"นางสาว ปุณยนุช หอทอง",
-   role:"รองประธาน คนที่ 2",
-   emoji:"👨‍🎓",
-    line:"@vice2",
-     ig:"neyname_ppyn",
-      Nickname:"Name (เนม)",
-    photo:"images/nameunity.jpeg.jpg" },
-  { name:"นางสาว พุทธิยา ม่วงงาม",
-   role:"เลขานุการ",
-    emoji:"👩‍💼",
-    line:"@sec01",
-     ig:"chzmlhxr",
-      Nickname:"Chompoo (ชมพู่)",
-    photo:"images/chompuunity.jpg" },
-  { name:"นาย ณัฐกิตติ์ ศรีศักดา",
-   role:"เหรัญญิก",
-    emoji:"👨‍💼",
-     line:"@fin01",
-      ig:"nnathk.t",
-       Nickname:"To (โต้)",
-      photo:"images/tounity.jpeg.jpg" },
-  { name:"นางสาว วณิชชา ไชยโย",
-   role:"หัวหน้าฝ่ายประชาสัมพันธ์",
-    emoji:"👩‍🎓",
-     line:"@pr01",
-      ig:"wxnitchx_kkk",
-      Nickname:"Krapaow (กะเพรา)",
-    photo:"images/krapaowunity.jpeg.jpg" },
-  { name:"นาย พชร ภิญโญรัตน์",
-   role:"หัวหน้าฝ่ายวิชาการ",
-    emoji:"👨‍🎓",
-     line:"@acad01",
-      ig:"kkkkkaaaaarrrrrnnnnn",
-       Nickname:"Karn (กานต์)",
-      photo:"images/karnunity.jpg" },
-  { name:"นาย ภูริช ต่อประดิษฐ",
-   role:"หัวหน้าฝ่ายวินัย/สารวัตรนักเรียน",
-    emoji:"👩‍🎨",
-     line:"@dis01",
-      ig:"p_nxos",
-       Nickname:"Nos (นอส)",
-      photo:"images/nosunity.jpeg.jpg" },
-  { name:"นางสาว อรอินทุ์ เชื้อนุช",
-   role:"หัวหน้าฝ่ายกิจกรรม/นันทนาการ",
-    emoji:"👨‍🎨",
-     line:"@act01",
-      ig:"justoninn",
-       Nickname:"Inn (อินทุ์)",
-      photo:"images/inunity.jpeg.jpg" },
-  { name:"นาย ธนภูมิ ชมภู",
-   role:"หัวหน้าฝ่ายสถานที่/ปฏิคม",
-    emoji:"👩‍💻",
-     line:"@place01",
-      ig:"c_thanapoom_",
-       Nickname:"Poom (ภูมิ)",
-      photo:"images/poomair4unity.jpg" },
-  { name:"นาย ณัฐพงศ์ บุญพาลํ้าเลิศ",
-   role:"กรรมการ",
-    emoji:"👨‍💻",
-     line:"@mem01",
-      ig:"🐶",
-       Nickname:"Jr (เจอาร์)",
-      photo:"images/jrunity.jpeg.jpg" },
-  { name:"นาย ธนภัทร ธนนอภิชาธร",
-   role:"กรรมการ",
-    emoji:"👩‍⚕️",
-     line:"@mem02",
-      ig:"t_np09",
-       Nickname:"Kane (เคน)",
-      photo:"images/kaneunity.jpeg.jpg" },
-  { name:"นาย ธนา ปัถวีเสถียร",
-   role:"กรรมการ",
-    emoji:"👨‍⚕️", 
-    line:"@mem03",
-     ig:"tthanaa.a",
-      Nickname:"Boat (โบ๊ท)",
-    photo:"images/boatunity.jpeg.jpg" },
-  { name:"นางสาว คีตวรรณ รอดรินทร์",
-   role:"กรรมการ",
-    emoji:"🌿",
-     line:"@mem04",
-      ig:"pa.ikaw._",
-       Nickname:"Paikaw (ปลายข้าว)",
-      photo:"images/kawunity.jpg" },
-  { name:"นางสาว รมิตา​  ทรายงาม",
-   role:"กรรมการ",
-    emoji:"🌱",
-     line:"@mem05",
-      ig:"rmt.mewww",
-       Nickname:"Mew (หมิว)",
-      photo:"images/mewunity.jpeg.jpg" },
-  { name:"นาย ณัฐปคัลภ์ ชัชวาลย์พิศาลค้า",
-   role:"กรรมการ",
-    emoji:"⚽",
-     line:"@mem06",
-      ig:"1.4.25_rose",
-       Nickname:"August (ออกัส)",
-      photo:"images/gusunity.jpg" },
-  { name:"นางสาว ศุภรดา ศรีบุรินทร์",
-   role:"กรรมการ",
-    emoji:"🏆",
-     line:"@mem07",
-      ig:"chxzrrr_",
-       Nickname:"Cheer (เชียร์)",
-      photo:"images/m4unity.jpeg.jpg" },
-  { name:"นางสาว นันภัทร มีฤทธิ์",
-   role:"กรรมการ",
-    emoji:"🎭",
-     line:"@mem08",
-      ig:"me_mookw",
-       Nickname:"Mook (มุก)",
-      photo:"images/mookunity.jpg" },
-  { name:"นางสาว ธมลวรรณ ช่อดารา",
-   role:"กรรมการ",
-    emoji:"🎨",
-     line:"@mem09",
-      ig:"amystayonthemoon__",
-       Nickname:"Amy (เอมี่)",
-       photo:"images/amyunity.jpeg.jpg" },
-  { name:"นางสาว ชลิดา เรืองแสงทอง",
-   role:"กรรมการ",
-    emoji:"💻",
-     line:"@mem10",
-      ig:"rrchalida.rst",
-       Nickname:"Rose (โรส)",
-      photo:"images/roseunity.jpeg.jpg" },
+  { name:"นาย ธีรนัย ใสสด",           role:"รองประธาน คนที่ 1",                    emoji:"👩‍🎓", ig:"aamthuutny",          Nickname:"Arm (อาร์ม)",      photo:"images/armunity.jpeg.jpg" },
+  { name:"นางสาว ปุณยนุช หอทอง",       role:"รองประธาน คนที่ 2",                    emoji:"👨‍🎓", ig:"neyname_ppyn",        Nickname:"Name (เนม)",       photo:"images/nameunity.jpeg.jpg" },
+  { name:"นางสาว พุทธิยา ม่วงงาม",     role:"เลขานุการ",                            emoji:"👩‍💼", ig:"chzmlhxr",            Nickname:"Chompoo (ชมพู่)",  photo:"images/chompuunity.jpg" },
+  { name:"นาย ณัฐกิตติ์ ศรีศักดา",     role:"เหรัญญิก",                             emoji:"👨‍💼", ig:"nnathk.t",            Nickname:"To (โต้)",         photo:"images/tounity.jpeg.jpg" },
+  { name:"นางสาว วณิชชา ไชยโย",        role:"หัวหน้าฝ่ายประชาสัมพันธ์",            emoji:"👩‍🎓", ig:"wxnitchx_kkk",        Nickname:"Krapaow (กะเพรา)",photo:"images/krapaowunity.jpeg.jpg" },
+  { name:"นาย พชร ภิญโญรัตน์",         role:"หัวหน้าฝ่ายวิชาการ",                  emoji:"👨‍🎓", ig:"kkkkkaaaaarrrrrnnnnn", Nickname:"Karn (กานต์)",    photo:"images/karnunity.jpg" },
+  { name:"นาย ภูริช ต่อประดิษฐ",       role:"หัวหน้าฝ่ายวินัย/สารวัตรนักเรียน",   emoji:"👩‍🎨", ig:"p_nxos",              Nickname:"Nos (นอส)",        photo:"images/nosunity.jpeg.jpg" },
+  { name:"นางสาว อรอินทุ์ เชื้อนุช",   role:"หัวหน้าฝ่ายกิจกรรม/นันทนาการ",      emoji:"👨‍🎨", ig:"justoninn",           Nickname:"Inn (อินทุ์)",     photo:"images/inunity.jpeg.jpg" },
+  { name:"นาย ธนภูมิ ชมภู",            role:"หัวหน้าฝ่ายสถานที่/ปฏิคม",           emoji:"👩‍💻", ig:"c_thanapoom_",        Nickname:"Poom (ภูมิ)",      photo:"images/poomair4unity.jpg" },
+  { name:"นาย ณัฐพงศ์ บุญพาลํ้าเลิศ", role:"กรรมการ",                              emoji:"👨‍💻", ig:"jrunity",             Nickname:"Jr (เจอาร์)",     photo:"images/jrunity.jpeg.jpg" },
+  { name:"นาย ธนภัทร ธนนอภิชาธร",      role:"กรรมการ",                              emoji:"👩‍⚕️",ig:"t_np09",              Nickname:"Kane (เคน)",       photo:"images/kaneunity.jpeg.jpg" },
+  { name:"นาย ธนา ปัถวีเสถียร",         role:"กรรมการ",                              emoji:"👨‍⚕️",ig:"tthanaa.a",           Nickname:"Boat (โบ๊ท)",     photo:"images/boatunity.jpeg.jpg" },
+  { name:"นางสาว คีตวรรณ รอดรินทร์",   role:"กรรมการ",                              emoji:"🌿",  ig:"pa.ikaw._",           Nickname:"Paikaw (ปลายข้าว)",photo:"images/kawunity.jpg" },
+  { name:"นางสาว รมิตา ทรายงาม",       role:"กรรมการ",                              emoji:"🌱",  ig:"rmt.mewww",           Nickname:"Mew (หมิว)",       photo:"images/mewunity.jpeg.jpg" },
+  { name:"นาย ณัฐปคัลภ์ ชัชวาลย์พิศาลค้า",role:"กรรมการ",                          emoji:"⚽",  ig:"1.4.25_rose",         Nickname:"August (ออกัส)",  photo:"images/gusunity.jpg" },
+  { name:"นางสาว ศุภรดา ศรีบุรินทร์",  role:"กรรมการ",                              emoji:"🏆",  ig:"chxzrrr_",            Nickname:"Cheer (เชียร์)",  photo:"images/m4unity.jpeg.jpg" },
+  { name:"นางสาว นันภัทร มีฤทธิ์",     role:"กรรมการ",                              emoji:"🎭",  ig:"me_mookw",            Nickname:"Mook (มุก)",       photo:"images/mookunity.jpg" },
+  { name:"นางสาว ธมลวรรณ ช่อดารา",     role:"กรรมการ",                              emoji:"🎨",  ig:"amystayonthemoon__",  Nickname:"Amy (เอมี่)",      photo:"images/amyunity.jpeg.jpg" },
+  { name:"นางสาว ชลิดา เรืองแสงทอง",   role:"กรรมการ",                              emoji:"💻",  ig:"rrchalida.rst",       Nickname:"Rose (โรส)",       photo:"images/roseunity.jpeg.jpg" },
 ];
 
 const grid = document.getElementById('members-grid');
-
 members.forEach((m, i) => {
   const wrap = document.createElement('div');
   wrap.className = 'flip-wrapper reveal';
   wrap.style.transitionDelay = `${(i % 4) * 0.07}s`;
 
-  const photoContent = m.photo 
-    ? `<img src="${m.photo}" alt="${m.name}">`
+  const photoHTML = m.photo
+    ? `<img src="${m.photo}" alt="${m.name}" onerror="this.parentElement.innerHTML='${m.emoji}'">`
     : m.emoji;
 
   wrap.innerHTML = `
     <div class="flip-inner">
       <div class="flip-front">
-        <div class="member-photo">${photoContent}</div>
+        <div class="member-photo">${photoHTML}</div>
         <div class="member-photo-overlay"></div>
         <div class="member-info">
           <div class="member-name">${m.name}</div>
@@ -689,29 +1065,26 @@ members.forEach((m, i) => {
       <div class="flip-back">
         <h4>${m.name}</h4>
         <div class="back-role">${m.role}</div>
-        <div class="contact-item">
-          <span class="contact-icon">👤</span> ชื่อเล่น: ${m.Nickname}
-        </div>
         <div class="contact-list">
+          <div class="contact-item">
+            <span>👤</span> ชื่อเล่น: ${m.Nickname}
+          </div>
           <a href="https://instagram.com/${m.ig}" target="_blank" class="contact-item">
-            <span class="contact-icon">📷</span> IG: @${m.ig}
+            <span>📷</span> IG: @${m.ig}
           </a>
         </div>
       </div>
-    </div>
-  `;
+    </div>`;
 
-  // Click to toggle on mobile
   wrap.addEventListener('click', () => wrap.classList.toggle('flipped'));
   grid.appendChild(wrap);
 });
 
-// ── Scroll reveal ──
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.12, rootMargin:'0px 0px -40px 0px' });
-
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+/* ── Scroll reveal ── */
+const revealObs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold:0.1, rootMargin:'0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
 </script>
 </body>
 </html>
