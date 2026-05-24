@@ -211,71 +211,85 @@ section { position:relative; z-index:1; padding:80px 20px; }
 /* ═══════════════════════════════════════════════
    POLICY — IMAGE CARDS (3×2) WITH SLIDER
 ═══════════════════════════════════════════════ */
+/* ═══════════════════════════════════════════════
+   POLICY SECTION - KEEP THIS ALL
+═══════════════════════════════════════════════ */
+
+/* ห้ามลบ: ตัวจัดระเบียบการเรียงตัวของการ์ด */
 .policy-grid {
-  max-width:1100px; margin:0 auto;
-  display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); /* ปรับตามขนาดหน้าจออัตโนมัติ */
+  gap: 25px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
+
+/* ตัวการ์ดหลัก */
 .policy-card {
-  position:relative; border-radius:18px; overflow:hidden;
-  border:1px solid var(--border);
-  aspect-ratio: 4/3;
-  cursor:pointer;
-  transition: transform .25s, box-shadow .25s, border-color .25s;
+  position: relative;
+  height: 450px; /* กำหนดความสูงที่แน่นอนเพื่อให้รูปแสดงผลสวย */
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  background: var(--bg-card);
 }
-.policy-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 16px 48px rgba(200,158,79,.15); }
 
-/* รูปภาพ background อยู่ด้านหลัง */
-/* ลบ .policy-card-img เดิมออก และใส่ชุดนี้แทน */
+/* รางเลื่อนภายใน */
+.policy-track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-/* 1. จัดการตัว slide ให้พร้อมสำหรับรองรับรูปภาพด้านหลัง */
+/* คำสั่งทำงานตอนคลิก */
+.policy-card.active-slide .policy-track {
+  transform: translateX(-50%);
+}
+
+/* หน้าแต่ละด้าน (หน้า/หลัง) */
 .policy-slide {
   width: 50%;
   height: 100%;
-  position: relative; /* สำคัญมาก: เพื่อให้รูปที่ทำเป็น absolute อ้างอิงพื้นที่นี้ */
+  position: relative;
   display: flex;
   flex-direction: column;
-  overflow: hidden; /* ตัดส่วนเกินของรูปออก */
+  padding: 30px;
   box-sizing: border-box;
 }
 
-/* 2. ทำให้รูปภาพขยายเต็มกรอบ */
+/* กล่องคุมรูปภาพ (หัวใจสำคัญที่ทำให้รูปเต็มกรอบ) */
 .slide-photo-box {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0; /* ส่งไปไว้ด้านหลังสุด */
+  inset: 0;
+  z-index: 0;
 }
 
 .slide-photo-box img {
   width: 100%;
   height: 100%;
-  object-fit: cover; /* ทำให้รูปเต็มกรอบโดยไม่เสียสัดส่วน (ไม่เบี้ยว) */
-  display: block;
+  object-fit: cover; /* รูปจะเต็มกรอบและไม่เบี้ยว */
 }
 
-/* 3. จัดการข้อความและไอคอนให้ลอยอยู่เหนือรูป */
+/* ดันเนื้อหาให้อยู่เหนือรูป */
 .policy-slide > *:not(.slide-photo-box) {
   position: relative;
-  z-index: 1; /* ดึงข้อความมาไว้ด้านหน้า */
+  z-index: 1;
 }
 
-/* 4. เพิ่ม Gradient ให้พื้นหลังเพื่อให้ตัวหนังสืออ่านง่ายขึ้น */
 .slide-front {
-  justify-content: flex-end; /* ให้ข้อความอยู่ด้านล่าง */
-  padding: 25px;
-  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
+  justify-content: flex-end;
+  background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, transparent 60%);
 }
 
 .slide-back {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 25px;
-  /* เพิ่มพื้นหลังทึบในหน้ารายละเอียดเพื่อให้อ่านง่าย */
-  background: rgba(40, 11, 10, 0.85); 
-  backdrop-filter: blur(4px); /* เพิ่มเอฟเฟกต์เบลอหลังรูป */
+  background: rgba(40, 11, 10, 0.85);
+  backdrop-filter: blur(8px);
 }
 
 .policy-card-icon { font-size:1.8rem; margin-bottom:8px; }
@@ -681,15 +695,15 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/subjectfrontunity.jpg" alt="วิชาการ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านวิชาการ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
           <div class="slide-photo-box">
             <img src="images/subjectunity.jpg" alt="รายละเอียดวิชาการ" onerror="this.src='images/logounity.jpg'">
           </div>
-          <h3>รายละเอียดวิชาการ</h3>
-          <p>บอร์ดข่าวสาร myTCAS และแบบฟอร์มสอบถามปัญหาทุกต้นเดือน เพื่อเตรียมพร้อมสู่อนาคต</p>
+          <h3></h3>
+          <p></p>
           <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
         </div>
       </div>
@@ -702,15 +716,15 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/recreationfrontunity.jpg" alt="นันทนาการ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านนันทนาการ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
           <div class="slide-photo-box">
             <img src="images/recreationunity.jpg" alt="รายละเอียดนันทนาการ" onerror="this.src='images/logounity.jpg'">
           </div>
-          <h3>รายละเอียดนันทนาการ</h3>
-          <p>กิจกรรมโฟล์คซอง รีเควสเพลง และตลาดนัดนักเรียนประจำเดือน เพื่อผ่อนคลายจากการเรียน</p>
+          <h3></h3>
+          <p></p>
           <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
         </div>
       </div>
@@ -723,15 +737,15 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/cleanfrontunity.jpg" alt="ความสะอาด" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านความสะอาด</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
           <div class="slide-photo-box">
             <img src="images/cleanunity.jpg" alt="รายละเอียดความสะอาด" onerror="this.src='images/logounity.jpg'">
           </div>
-          <h3>รายละเอียดความสะอาด</h3>
-          <p>จัดสรรถังทิ้งผ้าอนามัยและเพิ่มชั้นวางของในห้องน้ำหญิง เพื่อสุขอนามัยที่ดีของทุกคน</p>
+          <h3></h3>
+          <p></p>
           <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
         </div>
       </div>
@@ -744,15 +758,15 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/securityfrontunity.jpg" alt="ความปลอดภัย" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านความปลอดภัย</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
           <div class="slide-photo-box">
             <img src="images/securityunity.jpg" alt="รายละเอียดความปลอดภัย" onerror="this.src='images/logounity.jpg'">
           </div>
-          <h3>รายละเอียดความปลอดภัย</h3>
-          <p>ตรวจสอบถังดับเพลิงสม่ำเสมอ และติดบอร์ดแนะนำการเอาตัวรอดในเหตุฉุกเฉิน</p>
+          <h3></h3>
+          <p></p>
           <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
         </div>
       </div>
@@ -765,15 +779,15 @@ footer p { color:var(--text-muted); font-size:.85rem; }
             <img src="images/regulatioonfrontunity.jpg" alt="ระเบียบ" onerror="this.src='images/logounity.jpg'">
           </div>
           <div class="policy-card-icon"></div>
-          <h3>นโยบายด้านระเบียบ</h3>
+          <h3></h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
         <div class="policy-slide slide-back">
           <div class="slide-photo-box">
             <img src="images/regulatioonunity.jpg" alt="รายละเอียดระเบียบ" onerror="this.src='images/logounity.jpg'">
           </div>
-          <h3>รายละเอียดระเบียบ</h3>
-          <p>รายงานการทำงานฝ่ายปกครองรายเดือน และจัดเวรดูแลความเรียบร้อยในโรงอาหาร</p>
+          <h3></h3>
+          <p></p>
           <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
         </div>
       </div>
