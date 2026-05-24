@@ -105,9 +105,12 @@ nav {
 .hamburger.active span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
 
 .mobile-menu {
-  display:none; position:absolute; top:var(--nav-h);
+  display:none; position:fixed; 
+  flex-direction: column;
+  top:var(--nav-h);
   left:0; width:100%;
   background: rgba(26,5,5,0.98);
+  z-index: 99999 !important;
   border-bottom:1px solid var(--border);
   flex-direction:column;
 }
