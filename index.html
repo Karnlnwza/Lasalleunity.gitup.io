@@ -209,53 +209,85 @@ section { position:relative; z-index:1; padding:80px 20px; }
 .section-header { max-width:1100px; margin:0 auto 50px; }
 
 /* ═══════════════════════════════════════════════
-   POLICY — รูปเต็มกรอบ (Fixed Image Layout)
+   POLICY — IMAGE CARDS (3×2) WITH SLIDER
 ═══════════════════════════════════════════════ */
 .policy-grid {
   max-width:1100px; margin:0 auto;
   display:grid; grid-template-columns:repeat(3,1fr); gap:22px;
 }
 .policy-card {
-  position:relative; 
-  border-radius:18px; 
-  overflow:hidden;
+  position:relative; border-radius:18px; overflow:hidden;
   border:1px solid var(--border);
-  background: var(--bg-card);
-  display: flex;
-  flex-direction: column;
-  cursor:default;
+  aspect-ratio: 4/3;
+  cursor:pointer;
   transition: transform .25s, box-shadow .25s, border-color .25s;
 }
-.policy-card:hover { 
-  transform:translateY(-6px); 
-  border-color:var(--gold); 
-  box-shadow:0 16px 48px rgba(200,158,79,.15); 
-}
+.policy-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 16px 48px rgba(200,158,79,.15); }
 
+/* รูปภาพ background อยู่ด้านหลัง */
 .policy-card-img {
-  position:relative; 
-  width: 100%;
-  aspect-ratio: 16/9; /* ปรับรูปให้เป็นสัดส่วนเต็มๆ ในด้านบน */
-  background: linear-gradient(135deg, var(--bg-card2), var(--bg-card));
-  overflow: hidden;
+  position:absolute; inset:0;
+  background: linear-gradient(135deg, var(--bg-card2), var(--bg-card)); 
+  background-size:cover; background-position:center;
+  z-index: 1;
 }
 .policy-card-img img {
-  width:100%; height:100%; 
-  object-fit:cover;
+  width:100%; height:100%; object-fit:cover;
   transition: transform .4s;
 }
 .policy-card:hover .policy-card-img img { transform:scale(1.06); }
 
-.policy-card-body {
-  padding:20px 22px 22px;
+/* โครงสร้างตัวเลื่อนสไลด์ (Track) */
+.policy-track {
+  display: flex;
+  width: 200%;
+  height: 100%;
+  position: relative;
+  z-index: 2;
+  transition: transform 0.4s cubic-bezier(.4, 0, .2, 1);
+}
+
+/* เมื่อสั่งสไลด์ให้เลื่อน Track ไปทางซ้ายครึ่งหนึ่ง */
+.policy-card.active-slide .policy-track {
+  transform: translateX(-50%);
+}
+
+/* แผ่นสไลด์แต่ละหน้า */
+.policy-slide {
+  width: 50%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1;
+  justify-content: flex-end;
 }
-.policy-card-icon { font-size:1.6rem; margin-bottom:8px; }
-.policy-card h3 { font-size:1rem; font-weight:700; color:var(--gold); margin-bottom:6px; }
-.policy-card p  { font-size:.82rem; color:#ccd8e8; line-height:1.6; }
 
+/* หน้าแรก: ไล่เฉดโปร่งแสงให้มองเห็นภาพพื้นหลังชัด */
+.slide-front {
+  background: linear-gradient(to top, rgba(40,11,10,.95) 0%, rgba(40,11,10,.25) 60%, transparent 100%);
+}
+
+/* หน้ารายละเอียด: เพิ่มความทึบให้อ่านข้อความง่ายขึ้น */
+.slide-back {
+  background: linear-gradient(to top, rgba(40,11,10,0.98) 0%, rgba(40,11,10,0.75) 100%);
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+.policy-card-icon { font-size:1.8rem; margin-bottom:8px; }
+.policy-card h3 { font-size:1.05rem; font-weight:700; color:var(--gold); margin-bottom:6px; }
+.policy-card p  { font-size:.88rem; color:#ccd8e8; line-height:1.65; max-width: 90%; }
+
+/* ตัวบอกใบ้สำหรับคลิก */
+.slide-hint {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text-muted);
+  margin-top: 8px;
+  opacity: 0.8;
+}
 /* ═══════════════════════════════════════════════
    FAQ
 ═══════════════════════════════════════════════ */
@@ -635,64 +667,116 @@ footer p { color:var(--text-muted); font-size:.85rem; }
   <div class="section-header reveal">
     <div class="section-label">POLICY</div>
     <h2 class="section-title">นโยบายของเรา</h2>
-    <p class="section-desc">LASALLE UNITY มุ่งมั่นพัฒนาโรงเรียนให้ดียิ่งขึ้น ด้วยนโยบาย 6 ด้านหลัก เพื่อนักเรียนทุกคน</p>
+    <p class="section-desc">LASALLE UNITY มุ่งมั่นพัฒนาโรงเรียนให้ดียิ่งขึ้น ด้วยนโยบายหลัก เพื่อนักเรียนทุกคน</p>
   </div>
+
   <div class="policy-grid">
 
     <div class="policy-card reveal">
-      <div class="policy-card-img">
-        <img src="images/subjectunity.jpg" alt="วิชาการ" onerror="this.style.display='none'">
-      </div>
-      <div class="policy-card-body">
-        <div class="policy-card-icon">🎓</div>
-        <h3>นโยบายด้านวิชาการ</h3>
-        <p>บอร์ดข่าวสาร myTCAS และแบบฟอร์มสอบถามปัญหาทุกต้นเดือน</p>
-      </div>
-    </div>
-
-    <div class="policy-card reveal">
-      <div class="policy-card-img">
-        <img src="images/recreationunity.jpg" alt="นันทนาการ" onerror="this.style.display='none'">
-      </div>
-      <div class="policy-card-body">
-        <div class="policy-card-icon">🌿</div>
-        <h3>นโยบายด้านนันทนาการ</h3>
-        <p>กิจกรรมโฟล์คซอง รีเควสเพลง และตลาดนัดนักเรียนทุกเดือน</p>
-      </div>
-    </div>
-
-    <div class="policy-card reveal">
-      <div class="policy-card-img">
-        <img src="images/cleanunity.jpg" alt="ความสะอาด" onerror="this.style.display='none'">
-      </div>
-      <div class="policy-card-body">
-        <div class="policy-card-icon">🎨</div>
-        <h3>นโยบายด้านความสะอาด</h3>
-        <p>ถังทิ้งผ้าอนามัยและชั้นวางของในห้องน้ำหญิง</p>
+      <div class="policy-track">
+        <div class="policy-slide slide-front">
+          <div class="slide-photo-box">
+            <img src="images/academic-front.jpg" alt="วิชาการ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <div class="policy-card-icon">🎓</div>
+          <h3>นโยบายด้านวิชาการ</h3>
+          <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="policy-slide slide-back">
+          <div class="slide-photo-box">
+            <img src="images/subjectunity.jpg" alt="รายละเอียดวิชาการ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <h3>รายละเอียดวิชาการ</h3>
+          <p>บอร์ดข่าวสาร myTCAS และแบบฟอร์มสอบถามปัญหาทุกต้นเดือน เพื่อเตรียมพร้อมสู่อนาคต</p>
+          <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
+        </div>
       </div>
     </div>
 
     <div class="policy-card reveal">
-      <div class="policy-card-img">
-        <img src="images/securityunity.jpg" alt="ความปลอดภัย" onerror="this.style.display='none'">
-      </div>
-      <div class="policy-card-body">
-        <div class="policy-card-icon">🤝</div>
-        <h3>นโยบายด้านความปลอดภัย</h3>
-        <p>ตรวจสอบถังดับเพลิงและติดบอร์ดเอาตัวรอดในเหตุฉุกเฉิน</p>
+      <div class="policy-track">
+        <div class="policy-slide slide-front">
+          <div class="slide-photo-box">
+            <img src="images/recreation-front.jpg" alt="นันทนาการ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <div class="policy-card-icon">🌿</div>
+          <h3>นโยบายด้านนันทนาการ</h3>
+          <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="policy-slide slide-back">
+          <div class="slide-photo-box">
+            <img src="images/recreationunity.jpg" alt="รายละเอียดนันทนาการ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <h3>รายละเอียดนันทนาการ</h3>
+          <p>กิจกรรมโฟล์คซอง รีเควสเพลง และตลาดนัดนักเรียนประจำเดือน เพื่อผ่อนคลายจากการเรียน</p>
+          <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
+        </div>
       </div>
     </div>
 
     <div class="policy-card reveal">
-      <div class="policy-card-img">
-        <img src="images/regulatioonunity.jpg" alt="ระเบียบ" onerror="this.style.display='none'">
-      </div>
-      <div class="policy-card-body">
-        <div class="policy-card-icon">💡</div>
-        <h3>นโยบายด้านระเบียบ</h3>
-        <p>รายงานการทำงานฝ่ายปกครองรายเดือนและเวรดูแลโรงอาหาร</p>
+      <div class="policy-track">
+        <div class="policy-slide slide-front">
+          <div class="slide-photo-box">
+            <img src="images/clean-front.jpg" alt="ความสะอาด" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <div class="policy-card-icon">🎨</div>
+          <h3>นโยบายด้านความสะอาด</h3>
+          <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="policy-slide slide-back">
+          <div class="slide-photo-box">
+            <img src="images/cleanunity.jpg" alt="รายละเอียดความสะอาด" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <h3>รายละเอียดความสะอาด</h3>
+          <p>จัดสรรถังทิ้งผ้าอนามัยและเพิ่มชั้นวางของในห้องน้ำหญิง เพื่อสุขอนามัยที่ดีของทุกคน</p>
+          <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
+        </div>
       </div>
     </div>
+
+    <div class="policy-card reveal">
+      <div class="policy-track">
+        <div class="policy-slide slide-front">
+          <div class="slide-photo-box">
+            <img src="images/security-front.jpg" alt="ความปลอดภัย" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <div class="policy-card-icon">🤝</div>
+          <h3>นโยบายด้านความปลอดภัย</h3>
+          <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="policy-slide slide-back">
+          <div class="slide-photo-box">
+            <img src="images/securityunity.jpg" alt="รายละเอียดความปลอดภัย" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <h3>รายละเอียดความปลอดภัย</h3>
+          <p>ตรวจสอบถังดับเพลิงสม่ำเสมอ และติดบอร์ดแนะนำการเอาตัวรอดในเหตุฉุกเฉิน</p>
+          <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="policy-card reveal">
+      <div class="policy-track">
+        <div class="policy-slide slide-front">
+          <div class="slide-photo-box">
+            <img src="images/regulation-front.jpg" alt="ระเบียบ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <div class="policy-card-icon">💡</div>
+          <h3>นโยบายด้านระเบียบ</h3>
+          <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
+        </div>
+        <div class="policy-slide slide-back">
+          <div class="slide-photo-box">
+            <img src="images/regulatioonunity.jpg" alt="รายละเอียดระเบียบ" onerror="this.src='images/logounity.jpg'">
+          </div>
+          <h3>รายละเอียดระเบียบ</h3>
+          <p>รายงานการทำงานฝ่ายปกครองรายเดือน และจัดเวรดูแลความเรียบร้อยในโรงอาหาร</p>
+          <div class="slide-hint" style="margin-top:auto;">↩ คลิกเพื่อย้อนกลับ</div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
@@ -868,6 +952,13 @@ document.querySelectorAll('.mobile-menu a').forEach(a => {
   a.addEventListener('click', () => {
     hamburger.classList.remove('active');
     mobileMenu.classList.remove('active');
+  });
+});
+
+/* ── Policy Slider Toggle ── */
+document.querySelectorAll('.policy-card').forEach(card => {
+  card.addEventListener('click', () => {
+    card.classList.toggle('active-slide');
   });
 });
 
