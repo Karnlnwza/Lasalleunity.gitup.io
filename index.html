@@ -225,55 +225,57 @@ section { position:relative; z-index:1; padding:80px 20px; }
 .policy-card:hover { transform:translateY(-6px); border-color:var(--gold); box-shadow:0 16px 48px rgba(200,158,79,.15); }
 
 /* รูปภาพ background อยู่ด้านหลัง */
-.policy-card-img {
-  position:absolute; inset:0;
-  background: linear-gradient(135deg, var(--bg-card2), var(--bg-card)); 
-  background-size:cover; background-position:center;
-  z-index: 1;
-}
-.policy-card-img img {
-  width:100%; height:100%; object-fit:cover;
-  transition: transform .4s;
-}
-.policy-card:hover .policy-card-img img { transform:scale(1.06); }
+/* ลบ .policy-card-img เดิมออก และใส่ชุดนี้แทน */
 
-/* โครงสร้างตัวเลื่อนสไลด์ (Track) */
-.policy-track {
-  display: flex;
-  width: 200%;
-  height: 100%;
-  position: relative;
-  z-index: 2;
-  transition: transform 0.4s cubic-bezier(.4, 0, .2, 1);
-}
-
-/* เมื่อสั่งสไลด์ให้เลื่อน Track ไปทางซ้ายครึ่งหนึ่ง */
-.policy-card.active-slide .policy-track {
-  transform: translateX(-50%);
-}
-
-/* แผ่นสไลด์แต่ละหน้า */
+/* 1. จัดการตัว slide ให้พร้อมสำหรับรองรับรูปภาพด้านหลัง */
 .policy-slide {
   width: 50%;
   height: 100%;
-  box-sizing: border-box;
-  padding: 24px;
+  position: relative; /* สำคัญมาก: เพื่อให้รูปที่ทำเป็น absolute อ้างอิงพื้นที่นี้ */
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  overflow: hidden; /* ตัดส่วนเกินของรูปออก */
+  box-sizing: border-box;
 }
 
-/* หน้าแรก: ไล่เฉดโปร่งแสงให้มองเห็นภาพพื้นหลังชัด */
+/* 2. ทำให้รูปภาพขยายเต็มกรอบ */
+.slide-photo-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* ส่งไปไว้ด้านหลังสุด */
+}
+
+.slide-photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* ทำให้รูปเต็มกรอบโดยไม่เสียสัดส่วน (ไม่เบี้ยว) */
+  display: block;
+}
+
+/* 3. จัดการข้อความและไอคอนให้ลอยอยู่เหนือรูป */
+.policy-slide > *:not(.slide-photo-box) {
+  position: relative;
+  z-index: 1; /* ดึงข้อความมาไว้ด้านหน้า */
+}
+
+/* 4. เพิ่ม Gradient ให้พื้นหลังเพื่อให้ตัวหนังสืออ่านง่ายขึ้น */
 .slide-front {
-  background: linear-gradient(to top, rgba(40,11,10,.95) 0%, rgba(40,11,10,.25) 60%, transparent 100%);
+  justify-content: flex-end; /* ให้ข้อความอยู่ด้านล่าง */
+  padding: 25px;
+  background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%);
 }
 
-/* หน้ารายละเอียด: เพิ่มความทึบให้อ่านข้อความง่ายขึ้น */
 .slide-back {
-  background: linear-gradient(to top, rgba(40,11,10,0.98) 0%, rgba(40,11,10,0.75) 100%);
   justify-content: center;
   align-items: center;
   text-align: center;
+  padding: 25px;
+  /* เพิ่มพื้นหลังทึบในหน้ารายละเอียดเพื่อให้อ่านง่าย */
+  background: rgba(40, 11, 10, 0.85); 
+  backdrop-filter: blur(4px); /* เพิ่มเอฟเฟกต์เบลอหลังรูป */
 }
 
 .policy-card-icon { font-size:1.8rem; margin-bottom:8px; }
@@ -678,7 +680,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
           <div class="slide-photo-box">
             <img src="images/subjectfrontunity.jpg" alt="วิชาการ" onerror="this.src='images/logounity.jpg'">
           </div>
-          <div class="policy-card-icon">🎓</div>
+          <div class="policy-card-icon"></div>
           <h3>นโยบายด้านวิชาการ</h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
@@ -741,7 +743,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
           <div class="slide-photo-box">
             <img src="images/securityfrontunity.jpg" alt="ความปลอดภัย" onerror="this.src='images/logounity.jpg'">
           </div>
-          <div class="policy-card-icon">🤝</div>
+          <div class="policy-card-icon"></div>
           <h3>นโยบายด้านความปลอดภัย</h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
@@ -762,7 +764,7 @@ footer p { color:var(--text-muted); font-size:.85rem; }
           <div class="slide-photo-box">
             <img src="images/regulatioonfrontunity.jpg" alt="ระเบียบ" onerror="this.src='images/logounity.jpg'">
           </div>
-          <div class="policy-card-icon">💡</div>
+          <div class="policy-card-icon"></div>
           <h3>นโยบายด้านระเบียบ</h3>
           <div class="slide-hint" style="margin-top:auto;">📑 คลิกเพื่อดูรายละเอียด</div>
         </div>
